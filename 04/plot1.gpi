@@ -1,0 +1,4 @@
+load "plot_shared.gpi"
+set output 'out/graph1.jpg'
+
+plot "out/1" with lines title "coffee"

@@ -1,0 +1,4 @@
+set terminal jpeg size 800,600 linewidth 3
+
+set ylabel "temperature, deg C"
+set xlabel "time, min"
