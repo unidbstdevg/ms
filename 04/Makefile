@@ -1,7 +1,9 @@
-all: 1 2
+all: 1 2 3
 
 prep:
 	mkdir -p out/
 
 %: prep %.cl plot%.gpi
-	sbcl --script $@.cl > out/$@ && gnuplot plot$@.gpi && feh -F out/graph$@.jpg
+	sbcl --script $@.cl > out/$@
+	gnuplot plot$@.gpi
+	feh -F out/graph$@.jpg
