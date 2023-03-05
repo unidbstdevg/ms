@@ -1,4 +1,4 @@
-all: 1 2 3
+all: 1 2 3 4
 
 prep:
 	mkdir -p out/
