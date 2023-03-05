@@ -6,13 +6,18 @@
 (defun temp-coffee-fixed-iter (temp_prev dtm)
   (temp-coffee-iter temp_prev k temp_env dtm))
 
-(defun print-range-temp-coffe-till (tm temp0 dtm)
-  (let ((temp_prev temp0))
-    (loop for itm from 0 below tm by dtm
-      do
-        (format t "~,2f ~,2f~%" itm temp_prev)
-        (setf temp_prev (temp-coffee-fixed-iter temp_prev dtm)))))
+(defparameter balance_threshold 1)
+(defun balancep (temp1 temp2)
+  (< (abs (- temp1 temp2)) balance_threshold))
+
+(defun print-range-temp-coffe-fixed-till-balance (temp0 temp_env dtm)
+  (defun iter (itm temp)
+    (format t "~,2f ~,3f~%" itm temp)
+    (cond ((balancep temp temp_env) itm)
+          (t (let ((new_temp (temp-coffee-fixed-iter temp dtm)))
+               (iter (+ itm dtm) new_temp)))))
+  (iter 0 temp0))
 
 (defparameter temp0 83.)
 (defparameter dtm 0.1)
-(print-range-temp-coffe-till 1.7 temp0 dtm)
+(print-range-temp-coffe-fixed-till-balance temp0 temp_env dtm)
