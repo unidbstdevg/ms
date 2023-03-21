@@ -1,0 +1,11 @@
+set terminal jpeg size 1920,1080 linewidth 3
+set output 'out/graph_orig.jpg'
+set datafile separator ','
+
+set xtics 30
+
+lin_trend(x) = a*x + b
+fit lin_trend(x) "dt_stats_words.csv" via a,b
+
+plot "dt_stats_words.csv" with lines title "orig data", \
+         lin_trend(x) with lines lc "red" title "orig linear trendline"
