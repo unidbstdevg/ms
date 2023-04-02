@@ -1,0 +1,10 @@
+set terminal jpeg size 1920,1080 linewidth 3
+set datafile separator ','
+
+set xtics 30
+
+lin_trend(x) = a*x + b
+fit lin_trend(x) data_source via a,b
+
+plot data_source with lines title plot_name." data", \
+         lin_trend(x) with lines lc "red" title plot_name."linear trend"
