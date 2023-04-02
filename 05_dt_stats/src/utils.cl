@@ -1,11 +1,11 @@
 ; helper funcs
 
-(defun avg3 (a b c)
-  (/ (+ a b c)
-     3.0))
+(defun avg (&rest args)
+  (when args
+    (/ (apply #'+ args) (length args))))
 
 (defun myprint (x)
-  (princ x)
+  (princ (coerce x 'float))
   (terpri))
 
 (defun myread ()

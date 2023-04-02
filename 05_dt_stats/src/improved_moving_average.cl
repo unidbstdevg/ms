@@ -2,7 +2,7 @@
 
 (defun calc (prev cur)
   (let* ((next (myread))
-         (Si (avg3 prev cur next)))
+         (Si (avg prev cur next)))
     ; (format t "~d ~d ~d~%" prev cur next)
     (myprint Si)
     (calc Si next)))
