@@ -7,5 +7,8 @@
     (myprint Si)
     (calc Si next)))
 
-(terpri)
-(calc (myread) (myread))
+(let* ((prev (myread))
+       (cur (myread))
+       (Si (avg prev cur)))
+  (myprint Si)
+  (calc Si cur))
