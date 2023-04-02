@@ -1,0 +1,5 @@
+set output 'out/graph_exp_smooth.jpg'
+data_source = "out/exp_smooth.csv"
+plot_name = "exp smooth"
+
+load "plot/_lin_trend.gpi"

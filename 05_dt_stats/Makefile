@@ -1,4 +1,4 @@
-all: out/graph_orig.jpg out/graph_moving_average.jpg out/graph_improved_moving_average.jpg
+all: out/graph_orig.jpg out/graph_moving_average.jpg out/graph_improved_moving_average.jpg out/graph_exp_smooth.jpg
 	feh $?
 
 out:
@@ -20,3 +20,11 @@ out/graph_improved_moving_average.jpg: dt_stats_words.csv plot/_lin_trend.gpi pl
 		<(cut dt_stats_words.csv -d',' -f2 | sbcl --script src/improved_moving_average.cl) \
 		> out/improved_moving_average.csv
 	gnuplot plot/improved_moving_average.gpi
+
+
+out/graph_exp_smooth.jpg: dt_stats_words.csv plot/_lin_trend.gpi plot/exp_smooth.gpi src/utils.cl src/exp_smooth.cl | out
+	paste -d, \
+		<(cut dt_stats_words.csv -d',' -f1) \
+		<(cut dt_stats_words.csv -d',' -f2 | sbcl --script src/exp_smooth.cl) \
+		> out/exp_smooth.csv
+	gnuplot plot/exp_smooth.gpi
