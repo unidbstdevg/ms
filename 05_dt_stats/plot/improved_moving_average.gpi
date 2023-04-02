@@ -1,0 +1,5 @@
+set output 'out/graph_improved_moving_average.jpg'
+data_source = "out/improved_moving_average.csv"
+plot_name = "improved_moving average"
+
+load "plot/_lin_trend.gpi"
