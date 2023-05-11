@@ -20,19 +20,11 @@ class Conveyor:
             self.process_timer -= 1
             if self.process_timer <= 0:
                 self.next_out.input()
-        else:
-            pass
-            # print("Me idle")
-            # UPD: there I can exactly count how much ticks this Conveyor had
-            # in idle. Yes!
 
     def try_pick_next_from_queue_if_need(self):
         if not self.is_processing() and self.in_queue > 0:
             self.in_queue -= 1
             self.process_timer = self.random_duration.random()
-
-    def stat(self):
-        return {"in_queue": self.in_queue, "process_timer": self.process_timer}
 
 
 # this is like "Producer" conveyor. He does not have input()
@@ -70,4 +62,4 @@ class FinalConveyor:
 
 # for i in range(50):
 #     a2.tick()
-#     print(a2.stat())
+#     print(a2.process_timer)
