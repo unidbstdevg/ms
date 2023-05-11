@@ -9,6 +9,11 @@ class RandomDurationRange:
     def random(self):
         return randrange(self.start, self.end)
 
+    def __str__(self):
+        middle = int((self.start + self.end - 1) / 2)
+        offset = self.end - middle - 1
+        return "{} +- {}".format(middle, offset)
+
 
 # # test
 # a = RandomDurationRange(10, 4)
