@@ -1,4 +1,3 @@
-import os
 from time import sleep
 
 
@@ -36,4 +35,4 @@ class Monitor:
 
 
 def clear_screen():
-    os.system("cls" if os.name == "nt" else "clear")
+    print("\033c", end="")
