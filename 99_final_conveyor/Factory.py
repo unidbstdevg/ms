@@ -1,4 +1,5 @@
 from Conveyor import Conveyor, StartConveyor, FinalConveyor
+from Monitor import Monitor
 
 
 class Factory:
@@ -21,6 +22,10 @@ class Factory:
 
         self.start_conv = StartConveyor(durations[0], self.conveyors[0])
 
+        self.monitor = Monitor(self.start_conv,
+                               self.conveyors,
+                               self.final_conv)
+
     def emulate(self, N):
         for i in range(N):
             self.tick()
@@ -31,11 +36,4 @@ class Factory:
             conv.tick()
         # self.final_conv.tick()
 
-        self.debug_print_conveyors()
-
-    def debug_print_conveyors(self):
-        print("Start({:3})".format(self.start_conv.process_timer), end="")
-        for conv in self.conveyors:
-            s = conv.stat()
-            print(" -> ({:2}, {:2})".format(s["process_timer"], s["in_queue"]), end="")
-        print(" -> End({})".format(self.final_conv.count))
+        self.monitor.tick()
