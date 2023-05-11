@@ -15,11 +15,6 @@ class Factory:
             prev = new
         self.conveyors.reverse()
 
-        # debug print conveyors
-        # for x in self.conveyors:
-        #     print((x.random_duration.start + x.random_duration.end - 1) / 2)
-        # exit(1)
-
         self.start_conv = StartConveyor(durations[0], self.conveyors[0])
 
         self.monitor = Monitor(self.start_conv,
@@ -34,6 +29,5 @@ class Factory:
         self.start_conv.tick()
         for conv in self.conveyors:
             conv.tick()
-        # self.final_conv.tick()
 
         self.monitor.tick()
