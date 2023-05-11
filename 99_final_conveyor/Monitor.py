@@ -9,19 +9,29 @@ class Monitor:
 
         self.total_ticks = 0
 
+        self.queues_stat = [0 for _ in range(len(self.conveyors))]
+
     def tick(self):
         self.total_ticks += 1
 
         clear_screen()
         print(
-            "Producer timer: {} (of {})".format(
+            "Producer timer: {} (from {})".format(
                 self.start.process_timer, self.start.random_duration
             )
         )
-        for conv in self.conveyors:
+        for i, conv in enumerate(self.conveyors):
+            self.queues_stat[i] += conv.in_queue
+            avg_queue = self.queues_stat[i] / self.total_ticks
+            idle_in_queue = self.queues_stat[i]
             print(
-                " -> in_queue: {}; timer: {} (of {})".format(
-                    conv.in_queue, conv.process_timer, conv.random_duration
+                " -> in_queue: {}; avg_queue: {:.2f}; idle_in_queue: {:3} timer: {:2} (from {})"
+                .format(
+                    conv.in_queue,
+                    avg_queue,
+                    idle_in_queue,
+                    conv.process_timer,
+                    conv.random_duration
                 )
             )
         print(
