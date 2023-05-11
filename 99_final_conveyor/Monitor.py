@@ -14,7 +14,11 @@ class Monitor:
 
     def tick(self):
         self.total_ticks += 1
+        self.print_full_beauty()
+        # self.print_step_by_step()
+        sleep(0.1)
 
+    def print_full_beauty(self):
         clear_screen()
         print(
             "Producer timer: {} (from {})".format(
@@ -53,4 +57,8 @@ class Monitor:
         )
         print("\nTick: {}".format(self.total_ticks))
 
-        sleep(0.1)
+    def print_step_by_step(self):
+        print("Start({:3})".format(self.start.process_timer), end="")
+        for conv in self.conveyors:
+            print(" -> ({:2}, {:2})".format(conv.process_timer, conv.in_queue), end="")
+        print(" -> End({})".format(self.final.count))
