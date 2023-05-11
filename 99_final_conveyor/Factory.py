@@ -1,44 +1,41 @@
-from Conveyor import Conveyor, FinalConveyor
-
-
-NEW_PARTS_EACH_MINUTES = 175
+from Conveyor import Conveyor, StartConveyor, FinalConveyor
 
 
 class Factory:
     def __init__(self, durations):
-        self.conveyors = [FinalConveyor()]
-        for dur in durations[::-1]:
-            last = self.conveyors[0]
-            new = Conveyor(dur, last)
-            self.conveyors.insert(0, new)
+        self.final_conv = FinalConveyor()
 
-        self.timer_for_new_batch = -1
+        self.conveyors = []
+        prev = self.final_conv
+        # iterate durations in reverse order, from the last to the second
+        for dur in durations[:0:-1]:
+            new = Conveyor(dur, prev)
+            self.conveyors.append(new)
+            prev = new
+        self.conveyors.reverse()
 
-    def try_input_new_batch(self):
-        self.timer_for_new_batch -= 1
-        if self.timer_for_new_batch <= 0:
-            self.timer_for_new_batch = NEW_PARTS_EACH_MINUTES
-            self.conveyors[0].input()
+        # debug print conveyors
+        # for x in self.conveyors:
+        #     print((x.random_duration.start + x.random_duration.end - 1) / 2)
+        # exit(1)
 
-    def tick_all_conveyors(self):
-        # except of last, which is FinalConveyor, he has no tick()
-        for conv in self.conveyors[:-1]:
-            conv.tick()
+        self.start_conv = StartConveyor(durations[0], self.conveyors[0])
 
     def emulate(self, N):
         for i in range(N):
             self.tick()
 
     def tick(self):
-        self.try_input_new_batch()
-        self.tick_all_conveyors()
+        self.start_conv.tick()
+        for conv in self.conveyors:
+            conv.tick()
+        # self.final_conv.tick()
 
         self.debug_print_conveyors()
 
     def debug_print_conveyors(self):
-        print("Start({:3})".format(self.timer_for_new_batch), end="")
-        for conv in self.conveyors[:-1]:
+        print("Start({:3})".format(self.start_conv.process_timer), end="")
+        for conv in self.conveyors:
             s = conv.stat()
             print(" -> ({:2}, {:2})".format(s["process_timer"], s["in_queue"]), end="")
-
-        print(" -> End({})".format(self.conveyors[-1].count))
+        print(" -> End({})".format(self.final_conv.count))

@@ -35,6 +35,22 @@ class Conveyor:
         return {"in_queue": self.in_queue, "process_timer": self.process_timer}
 
 
+# this is like "Producer" conveyor. He does not have input()
+class StartConveyor:
+    def __init__(self, duration_interval, next_out):
+        self.random_duration = duration_interval
+        self.next_out = next_out
+
+        self.process_timer = 0
+
+    def tick(self):
+        if self.process_timer <= 0:
+            self.next_out.input()
+            self.process_timer = self.random_duration.random()
+
+        self.process_timer -= 1
+
+
 class FinalConveyor:
     def __init__(self):
         self.count = 0
