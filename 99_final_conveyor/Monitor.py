@@ -1,5 +1,5 @@
 from time import sleep
-from utils import clear_screen, columnate_lists
+from utils import clear_screen, columnate_lists, round2p
 
 
 class Monitor:
@@ -33,7 +33,7 @@ class Monitor:
         ]
         for i, conv in enumerate(self.conveyors):
             self.queues_stat[i] += conv.in_queue
-            avg_queue = self.queues_stat[i] / self.total_ticks
+            avg_queue = round2p(self.queues_stat[i] / self.total_ticks)
             idle_in_queue = self.queues_stat[i]
             matrix.append(
                 [

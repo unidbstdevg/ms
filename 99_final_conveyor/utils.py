@@ -1,3 +1,10 @@
+from math import ceil
+
+
+def round2p(x):
+    return ceil(x * 100) / 100
+
+
 def clear_screen():
     print("\033c", end="")
 
