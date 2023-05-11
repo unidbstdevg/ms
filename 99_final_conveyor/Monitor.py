@@ -20,20 +20,31 @@ class Monitor:
                 self.start.process_timer, self.start.random_duration
             )
         )
+        matrix = [
+            [
+                "",
+                "in_queue",
+                "avg_queue",
+                "idle_in_queue",
+                "timer",
+                "timer_range",
+            ]
+        ]
         for i, conv in enumerate(self.conveyors):
             self.queues_stat[i] += conv.in_queue
             avg_queue = self.queues_stat[i] / self.total_ticks
             idle_in_queue = self.queues_stat[i]
-            print(
-                " -> in_queue: {}; avg_queue: {:.2f}; idle_in_queue: {:3} timer: {:2} (from {})"
-                .format(
+            matrix.append(
+                [
+                    "->",
                     conv.in_queue,
                     avg_queue,
                     idle_in_queue,
                     conv.process_timer,
-                    conv.random_duration
-                )
+                    conv.random_duration,
+                ]
             )
+        print(columnate_lists(matrix))
         print(
             "Done {} batches, {} details are good".format(
                 self.final.count, self.final.count * int(10 * 0.95)
@@ -46,3 +57,16 @@ class Monitor:
 
 def clear_screen():
     print("\033c", end="")
+
+
+# Source:
+# https://github.com/andrewp-as-is/columnate.py/blob/master/columnate/__init__.py
+def _lists(matrix):
+    widths = [max(map(len, map(str, col))) for col in zip(*matrix)]
+    for row in matrix:
+        yield "  ".join((str(val).ljust(width) for val, width in zip(row, widths)))
+
+
+def columnate_lists(matrix):
+    """columnate lists"""
+    return "\n".join(list(_lists(matrix)))
